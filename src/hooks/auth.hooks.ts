@@ -17,7 +17,7 @@ export const useUserRegistration = () => {
   });
 };
 
-export const useUserLogin = () => {
+export const useUserLoginHook = () => {
   return useMutation<any, Error, FieldValues>({
     mutationKey: ["LOGIN"],
     mutationFn: async (userData) => await loginUser(userData),

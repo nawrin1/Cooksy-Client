@@ -1,9 +1,7 @@
 "use server";
 
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 /* eslint-disable prettier/prettier */
-
-
 
 import axiosInstance from "@/src/lib/AxiosInstance";
 import { cookies } from "next/headers";
@@ -15,7 +13,7 @@ export const registerUser = async (userInfo: FieldValues) => {
 
     if (data.success) {
       cookies().set("accessToken", data?.data?.accessToken);
-    //   cookies().set("refreshToken", data?.data?.refreshToken);
+      //   cookies().set("refreshToken", data?.data?.refreshToken);
     }
 
     return data;
@@ -23,7 +21,6 @@ export const registerUser = async (userInfo: FieldValues) => {
     throw new Error(error);
   }
 };
-
 
 export const loginUser = async (userInfo: FieldValues) => {
   try {
@@ -31,7 +28,7 @@ export const loginUser = async (userInfo: FieldValues) => {
 
     if (data.success) {
       cookies().set("accessToken", data?.data?.accessToken);
-    //   cookies().set("refreshToken", data?.data?.refreshToken);
+      //   cookies().set("refreshToken", data?.data?.refreshToken);
     }
 
     return data;
@@ -40,30 +37,28 @@ export const loginUser = async (userInfo: FieldValues) => {
   }
 };
 
+export const getUser = async () => {
+  const accessToken = cookies().get("accessToken")?.value;
 
-export const getCurrentUser = async () => {
-    const accessToken = cookies().get("accessToken")?.value;
-  
-    let decodedToken = null;
-  
-    if (accessToken) {
-      decodedToken = await jwtDecode(accessToken);
-  
-      return {
-                email: decodedToken.email,
-                role: decodedToken.role,
-                image:decodedToken.image,
-                name:decodedToken.name,
-                _id:decodedToken._id,
-                password:decodedToken.password,
-                bio:decodedToken.bio,
-                follower: decodedToken.follower,
-                following: decodedToken.following,
-                isBlocked: decodedToken.isBlocked,
-                isPremium: decodedToken.isPremium,
-      };
-    }
-  
-    return decodedToken;
-  };
-  
+  let decodedToken = null;
+
+  if (accessToken) {
+    decodedToken = await jwtDecode(accessToken);
+
+    return {
+      email: decodedToken.email,
+      role: decodedToken.role,
+      image: decodedToken.image,
+      name: decodedToken.name,
+      _id: decodedToken._id,
+      password: decodedToken.password,
+      bio: decodedToken.bio,
+      follower: decodedToken.follower,
+      following: decodedToken.following,
+      isBlocked: decodedToken.isBlocked,
+      isPremium: decodedToken.isPremium,
+    };
+  }
+
+  return decodedToken;
+};

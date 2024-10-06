@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "./services/AuthService";
-
+import { getUser } from "./services/AuthService";
 
 const AuthRoutes = ["/login", "/register"];
 
@@ -14,19 +13,18 @@ const roleBasedRoutes = {
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl; 
+  const { pathname } = request.nextUrl;
 
-  console.log(pathname,"from middleware");
+  console.log(pathname, "from middleware");
 
-  const user = await getCurrentUser();
-
+  const user = await getUser();
 
   if (!user) {
     if (AuthRoutes.includes(pathname)) {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(
-        new URL(`/login?redirect=${pathname}`, request.url) 
+        new URL(`/login?redirect=${pathname}`, request.url)
       );
     }
   }
@@ -41,7 +39,6 @@ export async function middleware(request: NextRequest) {
 
   return NextResponse.redirect(new URL("/", request.url));
 }
-
 
 export const config = {
   matcher: ["/profile", "/profile/:page*", "/admin", "/login", "/register"],
