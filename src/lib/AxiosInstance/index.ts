@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import envConfig from "@/src/config/envConfig";
 
 const AxiosInstance = axios.create({
-    baseURL: envConfig.baseApi
+    baseURL: "http://localhost:4000"
     
   });
 

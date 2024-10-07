@@ -13,27 +13,30 @@ export const registerUser = async (userInfo: FieldValues) => {
 
     if (data.success) {
       cookies().set("accessToken", data?.data?.accessToken);
-      //   cookies().set("refreshToken", data?.data?.refreshToken);
+      
     }
 
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    throw new Error(error.response.data.message);
   }
 };
 
 export const loginUser = async (userInfo: FieldValues) => {
   try {
+    console.log(userInfo,"from service")
     const { data } = await axiosInstance.post("/auth/login", userInfo);
+    console.log(data)
 
     if (data.success) {
       cookies().set("accessToken", data?.data?.accessToken);
-      //   cookies().set("refreshToken", data?.data?.refreshToken);
+      
     }
 
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
   }
 };
 

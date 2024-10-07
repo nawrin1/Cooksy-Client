@@ -5,19 +5,21 @@
 import Image from 'next/image';
 
 import '../../styles/globals.css';
-import img from '../../assests/login.jpg';
-
-import { useUserLogin, useUserLoginHook } from "@/src/hooks/auth.hooks";
 import { Button } from '@nextui-org/button';
-import FXForm from '@/src/components/form/FXForm';
 import { zodResolver } from "@hookform/resolvers/zod";
-import FXInput from '@/src/components/form/FXInput';
-import loginValidationSchema from '@/src/schemas/login.schema';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { useEffect } from 'react';
+
+import img from '../../assests/login.jpg';
+
+import { useUserLoginHook } from "@/src/hooks/auth.hooks";
+import FXForm from '@/src/components/form/FXForm';
+import FXInput from '@/src/components/form/FXInput';
+import loginValidationSchema from '@/src/schemas/login.schema';
 import { useUser } from '@/src/context/user.provider';
 import Loader from '@/src/components/UI/Loader';
+import Link from 'next/link';
 
 const LoginPage = () => {
     const searchParams = useSearchParams();
@@ -33,8 +35,8 @@ const LoginPage = () => {
   
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         console.log(data)
-    //   handleUserLogin(data);
-    //   userLoading(true);
+        handleUserLogin(data);
+        userLoading(true);
     };
   
     useEffect(() => {
@@ -52,7 +54,7 @@ const LoginPage = () => {
         <>
         {isPending && <Loader />}
         <div className=" h-screen flex justify-center items-center text-black">
-            <div className="w-[800px] h-[400px]  bg-white rounded-sm flex shadow-lg">
+            <div className="lg:w-[800px] lg:h-[400px] md:w-[700px] md:h-[400px] h-[300px] w-[400px] bg-[#ffd8b1] rounded-sm flex ">
                 
                 <div className="relative w-[50%] h-full">
                     
@@ -63,21 +65,21 @@ const LoginPage = () => {
                     <div className='overlay' />
 
                   
-                    <div className="absolute inset-0 z-20 flex flex-col justify-around  text-center text-white p-4 font-Peyda">
+                    <div className="absolute inset-0 z-20 flex flex-col justify-around  text-center text-white  md:p-4 p-2 lg:p-4 font-Peyda">
                         <div>
-                        <h2 className="text-4xl text-[#e3913f] font-semibold">WELCOME TO COOKSY</h2>
-                        <p className=" ">Explore world-class recipes from chefs <br/> around the world</p>
+                        <h2 className="lg:text-4xl md:text-3xl text-2xl text-[#e3913f] font-semibold">WELCOME TO COOKSY</h2>
+                        <p className=" lg:text-[18px] md:text-[15px] text-[12px]">Explore world-class recipes from chefs <br/> around the world </p>
                         </div>
                         <div className="mt-8">
-                            <p>Do not have an account? No need to worry</p>
-                            <Button className="my-2  rounded-sm bg-default-900 font-semibold text-default"
+                            <p className='lg:text-[12px] md:text-[12px] text-[10px]'>Do not have an account? No need to worry</p>
+<Link href="/registration">                            <Button className="lg:my-2 md:my-2 mt-7  rounded-sm bg-default-900 font-semibold text-default"
               size="sm"
-              type="submit">Sign Up</Button>
+              type="submit">Sign Up</Button></Link>
                         </div>
                     </div>
                 </div>
 
-                {/* Right Side: Login Form */}
+                
                 <div className="w-[50%] h-full flex flex-col justify-center p-8 font-Peyda">
                     <h1 className="text-[#964B00] text-2xl mb-4">Login</h1>
                     {/* <form>
@@ -110,19 +112,19 @@ const LoginPage = () => {
                     </form> */}
 
 <FXForm
-            onSubmit={onSubmit}
             resolver={zodResolver(loginValidationSchema)}
+            onSubmit={onSubmit}
           >
             <div className="py-3">
-              <FXInput name="email" label="Email" type="email" />
+              <FXInput label="Email" name="email" type="email" />
             </div>
             <div className="py-3">
-              <FXInput name="password" label="Password" type="password"  />
+              <FXInput label="Password" name="password" type="password"  />
             </div>
 
-            <Button
-              className="my-3 w-full rounded-md bg-default-900 font-semibold text-default"
-              size="lg"
+     <Button
+              className="lg:mt-12 md:mt-12 mt-6 w-full rounded-md bg-default-900 font-semibold text-default "
+              size="md"
               type="submit"
             >
               Login

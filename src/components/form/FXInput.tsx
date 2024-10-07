@@ -31,6 +31,8 @@ export default function FXInput({
       size={size}
       type={type}
       variant={variant}
+     
+       
     />
   );
 }
