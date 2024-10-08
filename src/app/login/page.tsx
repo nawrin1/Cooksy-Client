@@ -20,6 +20,7 @@ import loginValidationSchema from '@/src/schemas/login.schema';
 import { useUser } from '@/src/context/user.provider';
 import Loader from '@/src/components/UI/Loader';
 import Link from 'next/link';
+import ForgetPasswordModal from '@/src/components/UI/ForgetPasswordModal';
 
 const LoginPage = () => {
     const searchParams = useSearchParams();
@@ -80,7 +81,7 @@ const LoginPage = () => {
                 </div>
 
                 
-                <div className="w-[50%] h-full flex flex-col justify-center p-8 font-Peyda">
+                <div className="w-[50%] h-full flex flex-col justify-center lg:p-8 md:p-8 p-10 font-Peyda">
                     <h1 className="text-[#964B00] text-2xl mb-4">Login</h1>
                     {/* <form>
                         <div className="mb-4">
@@ -115,11 +116,15 @@ const LoginPage = () => {
             resolver={zodResolver(loginValidationSchema)}
             onSubmit={onSubmit}
           >
-            <div className="py-3">
+            <div className="lg:py-3 md:py-3">
               <FXInput label="Email" name="email" type="email" />
             </div>
-            <div className="py-3">
+            <div className="lg:py-3 md:py-3">
               <FXInput label="Password" name="password" type="password"  />
+            </div>
+            <div className="lg:py-3 md:py-3 ">
+             {/* <p className='text-[14px] ml-1 hover:text-[#e3913f]'>Forget Password</p> */}
+             <ForgetPasswordModal></ForgetPasswordModal>
             </div>
 
      <Button

@@ -43,16 +43,20 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useUser = () => {
-  const context = useContext(UserContext);
-  console.log(context,"in user.provider")
+  
+    const context = useContext(UserContext);
+    console.log(context,"in user.provider")
+  
+    if (context === undefined) {
+      throw new Error("useUser hook must be used within the UserProvider context. Recheck it");
+    }
+  
+  
+  
+    return context;
 
-  if (context === undefined) {
-    throw new Error("useUser hook must be used within the UserProvider context. Recheck it");
-  }
+  
 
-
-
-  return context;
 };
 
 export default UserProvider;

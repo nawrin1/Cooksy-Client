@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 
+import UserProvider from "@/src/context/user.provider"
 import Link from "next/link"
 
 
@@ -12,9 +13,12 @@ export default function layout({ children }: { children: React.ReactNode }) {
         <Link href="/dashboard">Dashboard</Link>
       </div>
       
+      
       <div className="bg-blue-600 flex-1">
+
       <main>{children}</main>
       </div>
+      
     </div>
   );
 }

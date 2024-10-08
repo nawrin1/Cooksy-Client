@@ -10,9 +10,11 @@ const AxiosInstance = axios.create({
   });
 
 
-  axios.interceptors.request.use(function (config) {
+  AxiosInstance.interceptors.request.use(function (config) {
     const cookieStore=cookies()
     const accessToken=cookieStore.get("accessToken")?.value
+
+    console.log("at time of req")
 
     if(accessToken){
         config.headers.Authorization=accessToken

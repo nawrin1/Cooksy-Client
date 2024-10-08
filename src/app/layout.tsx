@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+
+
 import "../styles/globals.css";
 
 import { Metadata, Viewport } from "next";
@@ -8,6 +10,7 @@ import clsx from "clsx";
 import { fontSans } from "../config/fonts";
 import { siteConfig } from "../config/site";
 import { Providers } from "../lib/Providers";
+import UserProvider from "../context/user.provider";
 
 export const metadata: Metadata = {
   title: {
@@ -41,12 +44,14 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
+      
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
          
               {children}
 
          
         </Providers>
+        
       </body>
     </html>
   );

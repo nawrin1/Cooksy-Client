@@ -26,12 +26,47 @@ export const loginUser = async (userInfo: FieldValues) => {
   try {
     console.log(userInfo,"from service")
     const { data } = await axiosInstance.post("/auth/login", userInfo);
-    console.log(data)
+    // console.log(data)
 
     if (data.success) {
       cookies().set("accessToken", data?.data?.accessToken);
       
     }
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};
+export const forgetPassword = async (userInfo: FieldValues) => {
+  try {
+    // console.log(userInfo,"from service")
+    const { data } = await axiosInstance.post("/auth/forget-password", userInfo);
+    console.log("hello")
+    console.log(data)
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};
+export const forgetPasswordNew = async (userInfo: FieldValues) => {
+  try {
+    const {token,newPasswordInfo}=userInfo
+    console.log(token,newPasswordInfo)
+    if(token){
+      cookies().set("accessToken", token);
+
+    }
+    const { data } = await axiosInstance.patch("/auth/forget-password-new", newPasswordInfo);
+    
+    // console.log(data)
+
+
 
     return data;
   } catch (error: any) {

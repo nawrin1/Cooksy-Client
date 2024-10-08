@@ -8,12 +8,7 @@
     background-position: center;
     background-size: cover;
 }
-/* .login-bg{
-    background-image: url('../assests/login.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-} */
+
 
 
 .overlay {
@@ -26,3 +21,9 @@
     pointer-events: none; 
 }
 
+.forget{
+    background-image: url('../assests/forget-1.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+} 
