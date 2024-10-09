@@ -2,7 +2,8 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 
-import envConfig from "@/src/config/envConfig";
+
+
 
 const AxiosInstance = axios.create({
     baseURL: "http://localhost:4000"

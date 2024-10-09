@@ -15,10 +15,7 @@ export default function FXInput({
   name,
   color="warning",
 }: IProps) {
-  const {
-    register,
-    formState: { errors }, 
-  } = useFormContext();
+  const {register,formState: { errors }, } = useFormContext();
 
   return (
     <Input

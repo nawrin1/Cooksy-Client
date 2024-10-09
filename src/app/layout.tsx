@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 
-import "../styles/globals.css";
+
 
 import { Metadata, Viewport } from "next";
 import { Link } from "@nextui-org/link";
@@ -11,6 +11,7 @@ import { fontSans } from "../config/fonts";
 import { siteConfig } from "../config/site";
 import { Providers } from "../lib/Providers";
 import UserProvider from "../context/user.provider";
+import "../styles/globals.css";
 
 export const metadata: Metadata = {
   title: {
