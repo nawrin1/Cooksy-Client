@@ -11,7 +11,7 @@ import {
 
 import { getUser } from "../services/AuthService";
 
-const UserContext = createContext<IUserProviderValues | undefined>(undefined);
+export const UserContext = createContext<IUserProviderValues | undefined>(undefined);
 
 interface IUserProviderValues {
   user: any | null;
@@ -45,7 +45,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 export const useUser = () => {
   
     const context = useContext(UserContext);
-    console.log(context,"in user.provider")
+    // console.log(context,"in user.provider")
   
     if (context === undefined) {
       throw new Error("useUser hook must be used within the UserProvider context. Recheck it");

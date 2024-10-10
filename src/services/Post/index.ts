@@ -1,4 +1,5 @@
 "use server"
+import envConfig from "@/src/config/envConfig";
 import AxiosInstance from "@/src/lib/AxiosInstance";
 import { revalidateTag } from "next/cache";
 
@@ -19,5 +20,36 @@ export const createPost = async (formData: FormData): Promise<any> => {
       throw new Error("Failed to create post");
     }
   };
+export const getAllRecipes = async (): Promise<any> => {
+    try {
+      const { data } = await AxiosInstance.get("/recipes")
+      ;
+  
+      revalidateTag("posts"); 
+  
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Failed to get post");
+    }
+  };
 
+
+
+
+  export const getSingleRecipe = async (recipeId: string) => {
+    let fetchOptions = {};
+  
+    fetchOptions = {
+      cache: "no-store",
+    };
+  
+    const res = await fetch(`http://localhost:4000/recipes/${recipeId}`, fetchOptions);
+  
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+  
+    return res.json();
+  };
 

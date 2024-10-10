@@ -1,18 +1,25 @@
 /* eslint-disable prettier/prettier */
 "use client"
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CiForkAndKnife } from "react-icons/ci";
-
-import { useUser } from "@/src/context/user.provider";
-import Loader from "./Loader";
-import Image from "next/image";
 import { Avatar } from "@nextui-org/avatar";
+
+import { UserContext } from "@/src/context/user.provider";
 
 const UserSidebar = () => {
     const contentFromDB = '<p>helloo</p><p>hiii<br></p>';
     const [userInfo,setUserInfo]=useState(false)
-    const { user,isLoading,setIsLoading } = useUser();
+    // const { user,isLoading,setIsLoading } = useUser();
+
+    const context = useContext(UserContext);
+
+    if (!context) {
+        throw new Error("MyComponent must be used within a UserProvider");
+      }
+    
+      const { user, isLoading, setIsLoading } = context;
+    //   console.log(user)
 
     useEffect(() => {
         if(isLoading || !user){
@@ -24,14 +31,14 @@ const UserSidebar = () => {
 
        
       }, []);
-      console.log(user)
+    //   console.log(user)
 
     return (
         <>{
             user?        <div className="max-w-sm mx-auto  shadow-lg  overflow-hidden h-screen pt-10">
             <div className=" mx-auto flex items-center justify-center  w-[130px] h-[130px] rounded-full ">
                 {/* <Image className="rounded-full "  width={200} height={180} alt="user profile" src={user?.image}/> */}
-                <Avatar isBordered color="warning" src={user?.image} className="w-20 h-20 text-large" />
+                <Avatar isBordered className="w-20 h-20 text-large" color="warning" src={user?.image} />
         
         
             </div>

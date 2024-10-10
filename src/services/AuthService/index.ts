@@ -54,6 +54,21 @@ export const forgetPassword = async (userInfo: FieldValues) => {
     throw new Error(error.response.data.message);
   }
 };
+export const recipeVote = async (voteInfo: FieldValues) => {
+  try {
+    // console.log(userInfo,"from service")
+    const { data } = await axiosInstance.put("/recipes/vote", voteInfo);
+   
+    // console.log(data)
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};
 export const forgetPasswordNew = async (userInfo: FieldValues) => {
   try {
     const {token,newPasswordInfo}=userInfo

@@ -57,7 +57,9 @@ const Post = () => {
         const postData = {
             ...data,
             description:content,
-            user: user!.email,
+            rating:"5",
+            user: user!._id,
+            vote:0
         };
 
         formData.append("data", JSON.stringify(postData)); 
@@ -86,18 +88,20 @@ const Post = () => {
                     <div className="min-w-fit flex-1">
                     <FXInput label="Title" name="title" variant="underlined" />
                     </div>
-                    <div className="min-w-fit flex-1 text-black overflow-x-hidden">
-                    <FXSelect label="Tags" name="tags" options={tags} size="sm" variant="underlined"/>
-                    </div>
-                    </div>
-                    <div className="flex flex-wrap gap-2 py-2 overflow-x-hidden ">
                     <div className="min-w-fit flex-1">
                     <FXInput label="Cooking Time" name="time" variant="underlined" />
                     </div>
+
+                    </div>
+                    <div className="flex flex-wrap gap-2 py-2 overflow-x-hidden ">
                     <div className="min-w-fit flex-1 text-black overflow-x-hidden">
+                    <FXSelect label="Tags" name="tags" options={tags} size="sm" variant="underlined"/>
+                    </div>
+
+                    {/* <div className="min-w-fit flex-1 text-black overflow-x-hidden">
                     <FXInput label="Rating" name="rating" variant="underlined" />
                     
-                    </div>
+                    </div> */}
                     </div>
                         
                        

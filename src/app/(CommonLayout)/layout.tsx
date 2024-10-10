@@ -10,7 +10,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
   
   return (
     <div className="flex">
-      {/* Left Sidebar - Fixed and Full Height */}
+     
       {/* <div className="bg-red-300 border-2 gap-2 w-[25%] border-red-400 fixed h-screen flex flex-col">
         <Link href="/dashboard/post">Post a Recipe</Link>
         <Link href="/dashboard">My Recipe</Link>
@@ -45,12 +45,12 @@ export default function layout({ children }: { children: React.ReactNode }) {
     </div> */}
     <Sidebar />
 
-      {/* Middle content (scrollable) */}
+      {/* Middle content */}
       <div className="lg:w-[55%] md:w-[65%] w-[90%] lg:ml-[20%] ml-[10%] h-screen overflow-y-auto scrollable-content bg-white">
         <main>{children}</main>
       </div>
 
-      {/* Right Sidebar - Fixed and Full Height */}
+      
       <div className="lg:w-[25%] md:w-[25%] w-0 bg-[#fff4ea] fixed right-0 h-screen">
         <UserSidebar />
       </div>

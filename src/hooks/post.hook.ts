@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { createPost } from "../services/Post";
+import { createPost, getAllRecipes } from "../services/Post";
+import { recipeVote } from "../services/AuthService";
 
 
 
@@ -15,5 +16,23 @@ export const useCreatePost = () => {
     onError: (error) => {
       toast.error(error.message);
     },
+  });
+};
+export const useVote = () => {
+  return useMutation<any, Error>({
+    mutationKey: ["Vote"],
+    mutationFn: async (voteInfo) => await recipeVote(voteInfo),
+    onSuccess: () => {
+      toast.success("Vote done succesfully");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+export const useFetchPost = () => {
+  return useQuery({
+    queryKey: ["RECIEVED_POSTS"],
+    queryFn: async () => await getAllRecipes(),
   });
 };
