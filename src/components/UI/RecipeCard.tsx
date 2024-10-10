@@ -18,6 +18,7 @@ const RecipeCard = ({post}) => {
     }
 
     const { user, isLoading } = context;
+    console.log((user?.isPremium))
 
     // If loading, show a loading message (optional)
     // if (isLoading) {
@@ -27,10 +28,10 @@ const RecipeCard = ({post}) => {
     return (
         <div className="relative bg-white border shadow-md p-8">
             {/* If user is not premium, show the blurry overlay */}
-            {!user?.isPremium && (
-                <div className="absolute inset-0 flex flex-col items-center justify-start bg-white/50 backdrop-blur-lg z-10">
+            {user?.isPremium ? "":(
+                <div className="absolute font-Peyda inset-0 flex flex-col items-center pt-56 justify-start bg-white/50 backdrop-blur-lg z-10">
                     <p className="text-center text-lg font-semibold text-gray-600">Become a Premium member to view the full recipe details!</p>
-                    <button className="mt-4 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+                    <button className="mt-4 px-4 py-2 bg-[#e3913f] text-white rounded-lg hover:bg-orange-600">
                         Upgrade to Premium
                     </button>
                 </div>
