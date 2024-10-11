@@ -212,3 +212,19 @@ export const deleteComment = async (commentId: FieldValues) => {
     throw new Error(error.response.data.message);
   }
 };
+export const editComment = async (commentInfo: FieldValues) => {
+  try {
+    // console.log("comment edit service",commentInfo)
+   
+    const { data } = await axiosInstance.put("/recipes/editcomments", commentInfo);
+   
+  
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};

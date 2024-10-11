@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { createPost, getAllRecipes } from "../services/Post";
 import { checkFollow, recipeVote } from "../services/AuthService";
+import { FieldValues } from "react-hook-form";
 
 
 
@@ -19,7 +20,7 @@ export const useCreatePost = () => {
   });
 };
 export const useVote = () => {
-  return useMutation<any, Error>({
+  return useMutation<any, Error,FieldValues>({
     mutationKey: ["Vote"],
     mutationFn: async (voteInfo) => await recipeVote(voteInfo),
     onSuccess: () => {

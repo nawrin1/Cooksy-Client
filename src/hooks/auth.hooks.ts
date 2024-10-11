@@ -3,7 +3,7 @@ import { FieldValues } from "react-hook-form";
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { deleteComment, followUser, forgetPassword, forgetPasswordNew, loginUser, recipeComment, registerUser, unfollowUser } from "../services/AuthService";
+import { deleteComment, editComment, followUser, forgetPassword, forgetPasswordNew, loginUser, recipeComment, registerUser, unfollowUser } from "../services/AuthService";
 
 export const useUserRegistration = () => {
   return useMutation<any, Error, FieldValues>({
@@ -102,6 +102,28 @@ export const useDeleteComment = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['POSTS'] });
       toast.success("Comment Deleted");
+
+      
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.message);
+    },
+  });
+};
+export const useEditComment = () => {
+  const queryClient = useQueryClient();
+ 
+  return useMutation<any, Error, { commentId: string; newComment: string }>({
+    mutationKey: ["COMMENTS"],
+    mutationFn: async (commentInfo:{ commentId: string; newComment: string }) => {
+      // console.log(commentId,"edit hook")
+    
+      
+      await editComment(commentInfo)},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['POSTS'] });
+      toast.success("Comment Edited");
 
       
     },

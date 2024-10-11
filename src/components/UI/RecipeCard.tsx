@@ -116,18 +116,22 @@ import { UserContext } from "@/src/context/user.provider";
 import { format } from "date-fns";
 import { FiMoreHorizontal } from "react-icons/fi"; // For the three dots
 import { CiEdit } from "react-icons/ci";
-import { useDeleteComment } from "@/src/hooks/auth.hooks";
+import { useDeleteComment, useEditComment } from "@/src/hooks/auth.hooks";
 import { getSingleRecipe } from "@/src/services/Post";
+import { Button } from "@nextui-org/button";
+import { FaTelegramPlane } from "react-icons/fa";
 
 
-const RecipeCard = ({ post, recipeId }) => {
+const RecipeCard = ({ post, recipeId }:{post:any,recipeId:string}) => {
   const [posts, setposts] = useState(post);
   const dateCreated = posts?.createdAt;
   const context = useContext(UserContext);
   const [selectedCommentId, setSelectedCommentId] = useState(null);
   const [edit, setEdit] = useState(null);
   const [editon, setEditOn] = useState(false);
+  const [newComment,setNewComment]=useState('')
   const { mutate: handleDelete } = useDeleteComment();
+  const {mutate:handleEdit}=useEditComment()
 
   if (!context) {
     throw new Error("RecipeCard must be used within a UserProvider");
@@ -139,8 +143,10 @@ const RecipeCard = ({ post, recipeId }) => {
     // console.log("Edit comment with ID:", commentId);
     setEdit(index);
     setEditOn(!edit);
-    console.log(index);
-    console.log(edit);
+    // console.log(index);
+    // console.log(edit);
+   
+    setNewComment(posts.comments[index].comment);
   };
 
   const handleDeleteComment = async (commentId: any) => {
@@ -163,6 +169,24 @@ const RecipeCard = ({ post, recipeId }) => {
       setSelectedCommentId(commentId);
     }
   };
+
+
+  const handleSubmit=(id:string)=>{
+    console.log(newComment)
+    const commentInfo={
+        commentId:id,
+        newComment:newComment
+    }
+    handleEdit(commentInfo)
+    setSelectedCommentId(null);
+    setTimeout(async() => {
+        const { data } =  await getSingleRecipe(recipeId);
+
+        console.log(data)
+        setposts(data); 
+      }, 600);
+
+  }
 
   return (
     <div className="relative bg-white border shadow-md p-8">
@@ -240,7 +264,7 @@ const RecipeCard = ({ post, recipeId }) => {
       <div className="mt-6">
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Comments</h3>
         <div className="space-y-6">
-          {posts?.comments?.map((comment, index) => (
+          {posts?.comments?.map((comment:any, index:number) => (
             <div
               key={index}
               className="relative flex items-start gap-4 p-4 bg-gray-100 rounded-lg shadow-md"
@@ -251,13 +275,22 @@ const RecipeCard = ({ post, recipeId }) => {
                   {comment?.user?.name}
                 </h4>
                 {edit == index && selectedCommentId === comment?._id ? (
-                  <textarea
-                    value={comment?.comment}
-                    // onChange={(e) => setNewComment(e.target.value)}
+                    <div className="flex ">
+                    <textarea
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
                     placeholder="Add a comment..."
                     className="border p-2 rounded flex-grow text-gray-600 bg-slate-50 font-Peyda"
                     rows={2}
                   />
+                  <Button 
+           type="submit" 
+           onClick={()=>handleSubmit(comment?._id)}
+           className="ml-2 flex items-center justify-center bg-white text-black text-2xl rounded p-2"
+         >
+           <FaTelegramPlane />
+         </Button>
+</div>
                 ) : (
                   <p className="text-gray-600 text-sm">{comment?.comment}</p>
                 )}

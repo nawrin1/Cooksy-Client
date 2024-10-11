@@ -9,7 +9,7 @@ import { FaRegBell, FaRegStar, FaTelegramPlane } from "react-icons/fa";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 
-import { useFollow, useVote } from "@/src/hooks/post.hook";
+import {  useVote } from "@/src/hooks/post.hook";
 import { checkFollow, getUser } from "@/src/services/AuthService";
 import { UserContext } from "@/src/context/user.provider";
 import { useComment, useFollowUser, useUnFollowUser } from "@/src/hooks/auth.hooks";
