@@ -89,6 +89,38 @@ export const forgetPasswordNew = async (userInfo: FieldValues) => {
     throw new Error(error.response.data.message);
   }
 };
+export const followUser = async (followData: FieldValues) => {
+  try {
+  
+   console.log(followData,"follow data")
+    const { data } = await axiosInstance.patch("/auth/follow", followData);
+    
+    // console.log(data)
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};
+export const unfollowUser = async (unfollowData: FieldValues) => {
+  try {
+  
+   console.log(unfollowData,"unfollow data")
+    const { data } = await axiosInstance.patch("/auth/unfollow", unfollowData);
+    
+    // console.log(data)
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};
 
 export const getUser = async () => {
   const accessToken = cookies().get("accessToken")?.value;
@@ -114,4 +146,36 @@ export const getUser = async () => {
   }
 
   return decodedToken;
+};
+
+
+
+export const checkFollow = async (Info: FieldValues) => {
+  try {
+
+    
+
+    const res = await fetch(`http://localhost:4000/user/checkFollow?currentUser=${Info?.current}&followedUser=${Info.follow}`,{
+   
+    cache:"no-store"
+    });
+  
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+  //  console.log(res)
+
+  
+    const data= await res.json();
+
+    console.log(data)
+    return data
+
+
+
+    
+  } catch (error: any) {
+    console.log(error)
+    throw new Error(error);
+  }
 };

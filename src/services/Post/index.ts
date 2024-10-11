@@ -12,7 +12,7 @@ export const createPost = async (formData: FormData): Promise<any> => {
         },
       });
   
-      revalidateTag("posts"); 
+      revalidateTag("POSTS"); 
   
       return data;
     } catch (error) {
@@ -22,12 +22,17 @@ export const createPost = async (formData: FormData): Promise<any> => {
   };
 export const getAllRecipes = async (): Promise<any> => {
     try {
-      const { data } = await AxiosInstance.get("/recipes")
-      ;
+      const res = await fetch("http://localhost:4000/recipes",{
+        cache:"no-store"
+        
+      })
+      
   
-      revalidateTag("posts"); 
+      revalidateTag("POSTS"); 
   
-      return data;
+      const data=await res.json();
+      console.log(data)
+      return data
     } catch (error) {
       console.log(error);
       throw new Error("Failed to get post");

@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { FieldValues } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { forgetPassword, forgetPasswordNew, loginUser, registerUser } from "../services/AuthService";
+
+import { followUser, forgetPassword, forgetPasswordNew, loginUser, registerUser, unfollowUser } from "../services/AuthService";
 
 export const useUserRegistration = () => {
   return useMutation<any, Error, FieldValues>({
@@ -36,6 +37,53 @@ export const useForgetPassword = () => {
     mutationFn: async (userData) => await forgetPassword(userData),
     onSuccess: () => {
       toast.success("Reset Link Sent Successfully. Check Email");
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.message);
+    },
+  });
+};
+export const useFollowUser = () => {
+  const queryClient = useQueryClient();
+ 
+  return useMutation<any, Error, FieldValues>({
+    mutationKey: ["FOLLOW_USER"],
+    mutationFn: async (followData) => {
+    
+      
+      await followUser(followData)},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['POSTS'] });
+      toast.success("Follow Status Updated");
+
+      
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.message);
+    },
+  });
+};
+
+
+
+
+
+export const useUnFollowUser = () => {
+  const queryClient = useQueryClient();
+ 
+  return useMutation<any, Error, FieldValues>({
+    mutationKey: ["UnFOLLOW_USER"],
+    mutationFn: async (unfollowData) => {
+    
+      
+      await unfollowUser(unfollowData)},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['POSTS'] });
+      toast.success("UnFollow Status Updated");
+
+      
     },
     onError: (error) => {
       console.log(error)

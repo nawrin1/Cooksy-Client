@@ -2,7 +2,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { createPost, getAllRecipes } from "../services/Post";
-import { recipeVote } from "../services/AuthService";
+import { checkFollow, recipeVote } from "../services/AuthService";
 
 
 
@@ -32,7 +32,14 @@ export const useVote = () => {
 };
 export const useFetchPost = () => {
   return useQuery({
-    queryKey: ["RECIEVED_POSTS"],
+    queryKey: ["POSTS"],
     queryFn: async () => await getAllRecipes(),
+    refetchInterval: 10,
   });
 };
+// export const useFollow = (info:any) => {
+//   return useQuery({
+//     queryKey: ["FOLLOW_UPDATE"],
+//     queryFn: async () => await checkFollow(info),
+//   });
+// };

@@ -12,11 +12,11 @@ import { MdCardMembership } from "react-icons/md";
 const Sidebar=()=> {
   const router = useRouter();
   const pathname=usePathname()
-  console.log(pathname,"pathname")
+  // console.log(pathname,"pathname")
 
   const isActive = (path: string) => pathname === path;
 
-  console.log(isActive,"in sidebar")
+  // console.log(isActive,"in sidebar")
 
   return (
     // [#fbeada]

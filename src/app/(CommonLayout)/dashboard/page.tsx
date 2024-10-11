@@ -7,15 +7,16 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { SearchIcon } from "@/src/components/icons";
 import Post from "@/src/components/UI/Post";
 import { useFetchPost } from "@/src/hooks/post.hook";
-import { getUser } from "@/src/services/AuthService";
+import { checkFollow, getUser } from "@/src/services/AuthService";
 
 
 
 const Dashboard = () => {
     const { register, handleSubmit, watch } = useForm();
    
-    const { data, isPending, isSuccess } = useFetchPost();
+    const { data, isPending, isSuccess,refetch } = useFetchPost();
     const { user, isLoading, setIsLoading } = getUser();
+  
 
 
     console.log(user)
@@ -61,7 +62,7 @@ const Dashboard = () => {
             {/* Posts */}
             <div className="p-4 overflow-auto">
               {data?.data?.map((post: any) => (
-                <Post key={post?._id} post={post} />
+                <Post key={post?._id} post={post} refetch={refetch} />
               ))}
             </div>
           </div>

@@ -9,8 +9,10 @@ import { useContext } from "react";
 
 import ImageGallery from "@/src/components/UI/ImageGallery";
 import { UserContext } from "@/src/context/user.provider";
+import { format } from "date-fns";
 
 const RecipeCard = ({post}) => {
+    const dateCreated=post?.createdAt
     const context = useContext(UserContext);
 
     if (!context) {
@@ -71,7 +73,7 @@ const RecipeCard = ({post}) => {
                 </div>
             </div>
 
-            <div className="text-gray-800 text-base leading-6 mb-4">
+            <div className="text-gray-800 text-base leading-6 mb-28 ">
                 {parse(post?.description)}
             </div>
 
@@ -86,7 +88,7 @@ const RecipeCard = ({post}) => {
                         <h3 className="text-lg font-serif font-semibold text-gray-800">
                             {post?.user?.name}
                         </h3>
-                        <p className="text-xs text-gray-500 italic">Posted on: Oct 9, 2024</p>
+                        <p className="text-xs text-gray-500 italic">Posted on:{format(new Date(dateCreated), "dd MMM, yyyy")}</p>
                         <p className="text-sm text-gray-600 mt-1">{post?.user?.bio}</p>
                     </div>
                 </div>

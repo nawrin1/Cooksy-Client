@@ -4,32 +4,161 @@ import { Avatar } from "@nextui-org/avatar";
 import Image from "next/image";
 import { format } from "date-fns";
 import { AiOutlineLike, AiOutlineDislike, AiOutlineComment } from "react-icons/ai";
-import { LuArrowDownFromLine, LuArrowUpFromLine } from "react-icons/lu";
+import { LuArrowDownFromLine, LuArrowUpFromLine, LuBellOff } from "react-icons/lu";
 import { FaRegBell, FaRegStar } from "react-icons/fa";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
-import { useVote } from "@/src/hooks/post.hook";
+import { useFollow, useVote } from "@/src/hooks/post.hook";
+import { checkFollow, getUser } from "@/src/services/AuthService";
+import { UserContext } from "@/src/context/user.provider";
+import { useFollowUser, useUnFollowUser } from "@/src/hooks/auth.hooks";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { Button } from "@nextui-org/button";
 
-const Post = ({ post}) => {
+const Post = ({ post,refetch}:{post:any,refetch:any}) => {
+  const queryClient = useQueryClient();
   const [vote,setVote]=useState(0)
   const {mutate:handleRecipeVote,isSuccess,isPending}=useVote()
+  const context = useContext(UserContext);
+  const [followData,setfollowData]=useState(false)
+  const [followUnfollow,setFollowUnfollow]=useState(true)
+
+  if (!context) {
+      throw new Error("MyComponent must be used within a UserProvider");
+    }
+  
+    const { user, isLoading, setIsLoading } = context;
+    const { mutate: handleFollowUser } = useFollowUser();
+    const { mutate: handleunFollowUser } = useUnFollowUser();
+  // const {data}=checkFollow({current:user?._id,follow:post?.user})
+
+
+
+
+
+
+  const fetchFollowData = async () => {
+
+    console.log("inside fetch")
+    try {
+      const data = await checkFollow({ current: user?._id, follow: post?.user?._id });
+
+      
+      console.log(data, "hi");
+      setfollowData(data?.data)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (user?._id) {
+      console.log("innnn")
+      fetchFollowData();
+    }
+  }, [user,post]);
+
+// const handlefollow=async(value:any)=>{
+//   setFollowUnfollow(value)
+//   console.log(value,"fl/unfl")
+
+//   if(!user){
+//     toast.warning("You have to login first to follow/unfollow")
+
+//   }
+//   else if(value){
+//     const followInfo={
+//       currentUser:user?._id,
+//       followedUser:post?.user?._id
+//   }
+  
+//   handleFollowUser(followInfo)
+//   refetch()
+
+//   console.log("eh")
+//   fetchFollowData()
+//   // const data = await checkFollow({ current: user?._id, follow: post?.user?._id });
+//   // console.log(data, "second");
+//   // setfollowData(data?.data)
+
+
+
+//   }
+
+// }
+
+
+
+
+
  
+    
+
+  // console.log(vote)
 
 
-  console.log(vote)
+  const handlefollow = async (value: boolean) => {
+    if (!user) {
+      toast.warning("You have to login first to follow/unfollow");
+      return;
+    }
+  
+    const followInfo = {
+      currentUser: user?._id,
+      followedUser: post?.user?._id
+    };
+    
+    if(value){
+      await handleFollowUser(followInfo);
+      // queryClient.invalidateQueries({ queryKey: ['POSTS'] });
+      // refetch(); 
+
+    }
+    else{
+      console.log("in un")
+      await handleunFollowUser(followInfo)
+      // queryClient.invalidateQueries({ queryKey: ['POSTS'] });
+      // refetch(); 
+    }
+    queryClient.invalidateQueries({ queryKey: ["POSTS"] });
+    refetch()
+    fetchFollowData();
+    
+  
+   
+    setTimeout(() => {
+      fetchFollowData();
+      setFollowUnfollow(value);
+      refetch(); 
+    }, 600); 
+  };
+  
+  
+
+
+
   const dateCreated=post?.createdAt
   const handleVote=(votes:number)=>{
     setVote(votes)
-    const voteInfo={
+    if(!user){
+      toast.warning("You have to login first to upvote/downvote")
+  
+    }
+    else{
+      const voteInfo={
       vote:vote,
       recipe:post?._id
     }
-    console.log(voteInfo)
+    // console.log(voteInfo)
 
     handleRecipeVote(voteInfo)
   }
+  }
   
+
+ 
 
 
 
@@ -51,9 +180,38 @@ const Post = ({ post}) => {
         {/* <Button color="warning" variant="bordered" size="sm">
         <FaRegBell />Follow
         </Button> */}
-        <div className="flex text-[#f1a04f] gap-2 font-Peyda font-medium">
-        <FaRegBell className="mt-1"/>Follow
-        </div>
+        {
+          user?._id==post?.user?._id ? '':<div>
+          {followData?        
+          <Button variant="bordered" className="flex text-[#f1a04f] gap-2 font-Peyda font-medium"
+           onClick={()=>handlefollow(false)}
+           onKeyDown={(e) => {
+             if (e.key === "Enter" || e.key === " ") {
+              handlefollow(false);
+             }
+           }}
+           role="button"
+           tabIndex={0}>
+          <LuBellOff  className="mt-1"/>Unfollow
+          </Button>: 
+
+           <Button variant="bordered" className="flex text-[#f1a04f] gap-2 font-Peyda font-medium" 
+          onClick={()=>handlefollow(true)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              handlefollow(true)
+            }
+          }}
+          role="button"
+          tabIndex={0}>
+          <FaRegBell className="mt-1"/>Follow
+          </Button> }
+  
+          </div>
+        }
+       
+       
+
       </div>
 
    
