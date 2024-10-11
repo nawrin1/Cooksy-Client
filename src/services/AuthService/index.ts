@@ -228,3 +228,19 @@ export const editComment = async (commentInfo: FieldValues) => {
     throw new Error(error.response.data.message);
   }
 };
+export const rateRecipe = async (rateInfo: FieldValues) => {
+  try {
+ 
+   
+    const { data } = await axiosInstance.put("/recipes/rate", rateInfo);
+   
+  
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};

@@ -133,6 +133,9 @@ const RecipeCard = ({ post, recipeId }:{post:any,recipeId:string}) => {
   const { mutate: handleDelete } = useDeleteComment();
   const {mutate:handleEdit}=useEditComment()
 
+  const sum = post?.rating.reduce((acc:any, rate:any) => acc + rate, 0);  
+  const average = post?.rating.length ? (sum / post.rating.length).toFixed(2) : 0;
+
   if (!context) {
     throw new Error("RecipeCard must be used within a UserProvider");
   }
@@ -218,7 +221,7 @@ const RecipeCard = ({ post, recipeId }:{post:any,recipeId:string}) => {
         width={1000}
       />
 
-      <div className="flex justify-around items-center border-1 border-[#e3913f] rounded-lg p-4 mb-4 shadow-md">
+      <div className="flex justify-around items-center border-1 border-[#e3913f] rounded-lg p-4 mb-4 shadow-md font-Peyda">
         <div className="flex items-center text-gray-600">
           <RxLapTimer className="text-3xl mr-2 text-gray-700" />
           <div>
@@ -232,7 +235,8 @@ const RecipeCard = ({ post, recipeId }:{post:any,recipeId:string}) => {
           <div>
             <p className="text-sm">Rating</p>
             <p className="text-lg text-yellow-500 font-semibold">
-              {posts?.rating}
+              {/* {posts?.rating} */}
+              {average}
             </p>
           </div>
         </div>
@@ -261,7 +265,7 @@ const RecipeCard = ({ post, recipeId }:{post:any,recipeId:string}) => {
       </div>
 
       {/* Comments Section */}
-      <div className="mt-6">
+      <div className="mt-6 font-Peyda">
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Comments</h3>
         <div className="space-y-6">
           {posts?.comments?.map((comment:any, index:number) => (

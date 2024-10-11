@@ -7,15 +7,23 @@ import { AiOutlineLike, AiOutlineDislike, AiOutlineComment } from "react-icons/a
 import { LuArrowDownFromLine, LuArrowUpFromLine, LuBellOff } from "react-icons/lu";
 import { FaRegBell, FaRegStar, FaTelegramPlane } from "react-icons/fa";
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { EventHandler, useContext, useEffect, useState } from "react";
 
 import {  useVote } from "@/src/hooks/post.hook";
 import { checkFollow, getUser } from "@/src/services/AuthService";
 import { UserContext } from "@/src/context/user.provider";
-import { useComment, useFollowUser, useUnFollowUser } from "@/src/hooks/auth.hooks";
+import { useComment, useFollowUser, useRate, useUnFollowUser } from "@/src/hooks/auth.hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { Rating } from '@smastrom/react-rating'
+
+
+
+
+
+import '@smastrom/react-rating/style.css'
 import { Button } from "@nextui-org/button";
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/modal";
 
 const Post = ({ post,refetch}:{post:any,refetch:any}) => {
   const queryClient = useQueryClient();
@@ -27,8 +35,12 @@ const Post = ({ post,refetch}:{post:any,refetch:any}) => {
   const [showCommentSection, setShowCommentSection] = useState(false);
   // const [comments, setComments] = useState(""); // State for comments
   const [newComment, setNewComment] = useState("");
+  const [visibleRate,setVisibleRate]=useState(false)
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   const {mutate:handleRecipeComment}=useComment()
+  const [rating, setRating] = useState(0)
+  const {mutate:handleRateMutate}=useRate()
 
   if (!context) {
       throw new Error("MyComponent must be used within a UserProvider");
@@ -169,7 +181,7 @@ const Post = ({ post,refetch}:{post:any,refetch:any}) => {
   };
 
 
-  const handleCommentSubmit = (e) => {
+  const handleCommentSubmit = (e:any) => {
 
     if(!user){
       toast.warning("You have to login first to comment")
@@ -191,6 +203,16 @@ const Post = ({ post,refetch}:{post:any,refetch:any}) => {
     //   setNewComment(""); // Clear input
     // }
   };
+
+  const handleRate=(id:string)=>{
+    const rateInfo={
+      id:id,
+      rate:Number(rating)
+    }
+
+    // console.log(rateInfo)
+    handleRateMutate(rateInfo)
+  }
   
 
  
@@ -289,12 +311,61 @@ const Post = ({ post,refetch}:{post:any,refetch:any}) => {
         </div>
 
         {/* Rating */}
-        <div className="text-yellow-500 flex items-center">
-          {/* <FaStar size={20} /> */}
+
+
+        {/* <div
+          role="button" 
+          tabIndex={0} 
+          className="text-yellow-500 flex items-center"
+          onClick={() => setVisibleRate(!visibleRate)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              setVisibleRate(!visibleRate);
+            }
+          }}
+          aria-expanded={visibleRate} 
+        >
+                 
           <FaRegStar  />
           <span className="ml-1">5.0</span>
-        </div>
+         
+        </div> */}
+
+
+
+<Button onPress={onOpen} color="warning" variant="bordered"><FaRegStar  />Rate</Button>
+      <Modal
+        backdrop="opaque" 
+        isOpen={isOpen} 
+        onOpenChange={onOpenChange}
+        classNames={{
+          backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
+        }}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Rate My Post</ModalHeader>
+              <ModalBody>
+             
+             <div className="w-full flex justify-center"> <Rating style={{ maxWidth: 250 }} value={rating} onChange={setRating} /></div>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button  onPress={onClose} color="warning" onClick={()=>handleRate(post?._id)}>
+                  Submit
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       </div>
+
+
+
 
 
       {showCommentSection && (
@@ -315,6 +386,10 @@ const Post = ({ post,refetch}:{post:any,refetch:any}) => {
          </Button>
        </form>
      </div>
+
+
+
+
      )}
     </div>
   );

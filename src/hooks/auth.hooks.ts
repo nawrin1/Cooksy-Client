@@ -3,7 +3,7 @@ import { FieldValues } from "react-hook-form";
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { deleteComment, editComment, followUser, forgetPassword, forgetPasswordNew, loginUser, recipeComment, registerUser, unfollowUser } from "../services/AuthService";
+import { deleteComment, editComment, followUser, forgetPassword, forgetPasswordNew, loginUser, rateRecipe, recipeComment, registerUser, unfollowUser } from "../services/AuthService";
 
 export const useUserRegistration = () => {
   return useMutation<any, Error, FieldValues>({
@@ -165,6 +165,30 @@ export const useForgetPasswordNew = () => {
     mutationFn: async (userData) => await forgetPasswordNew(userData),
     onSuccess: () => {
       toast.success("Password updated Successfully");
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.message);
+    },
+  });
+};
+
+
+export const useRate = () => {
+  const queryClient = useQueryClient();
+ 
+  return useMutation<any, Error, { id: string; rate: number }>({
+    mutationKey: ["RATE"],
+    mutationFn: async (rateInfo:{ id: string; rate: number }) => {
+      // console.log(commentId,"edit hook")
+    
+      
+      await rateRecipe(rateInfo)},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['POSTS'] });
+      toast.success("Rated Successfully");
+
+      
     },
     onError: (error) => {
       console.log(error)
