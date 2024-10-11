@@ -179,3 +179,36 @@ export const checkFollow = async (Info: FieldValues) => {
     throw new Error(error);
   }
 };
+
+
+export const recipeComment = async (commentInfo: FieldValues) => {
+  try {
+    // console.log(userInfo,"from service")
+    const { data } = await axiosInstance.put("/recipes/comments", commentInfo);
+   
+    // console.log(data)
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};
+export const deleteComment = async (commentId: FieldValues) => {
+  try {
+    console.log("delete service",commentId)
+   
+    const { data } = await axiosInstance.put("/recipes/commentsdelete", {commentId});
+   
+  
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};

@@ -33,7 +33,7 @@ const Recipe = async ({ params: { recipeId } }: any) => {
 
   return (
     <>
-    <RecipeCard post={post}/></>
+    <RecipeCard post={post} recipeId={recipeId}/></>
 
   );
 };

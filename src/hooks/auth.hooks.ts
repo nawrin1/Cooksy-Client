@@ -3,7 +3,7 @@ import { FieldValues } from "react-hook-form";
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { followUser, forgetPassword, forgetPasswordNew, loginUser, registerUser, unfollowUser } from "../services/AuthService";
+import { deleteComment, followUser, forgetPassword, forgetPasswordNew, loginUser, recipeComment, registerUser, unfollowUser } from "../services/AuthService";
 
 export const useUserRegistration = () => {
   return useMutation<any, Error, FieldValues>({
@@ -56,6 +56,52 @@ export const useFollowUser = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['POSTS'] });
       toast.success("Follow Status Updated");
+
+      
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.message);
+    },
+  });
+};
+
+
+
+export const useComment = () => {
+  const queryClient = useQueryClient();
+ 
+  return useMutation<any, Error, FieldValues>({
+    mutationKey: ["COMMENTS"],
+    mutationFn: async (commentData) => {
+    
+      
+      await recipeComment(commentData)},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['POSTS'] });
+      toast.success("Comment Added.See details to check your comment");
+
+      
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.message);
+    },
+  });
+};
+export const useDeleteComment = () => {
+  const queryClient = useQueryClient();
+ 
+  return useMutation<any, Error, FieldValues>({
+    mutationKey: ["COMMENTS"],
+    mutationFn: async (commentId) => {
+      console.log(commentId,"del hook")
+    
+      
+      await deleteComment(commentId)},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['POSTS'] });
+      toast.success("Comment Deleted");
 
       
     },

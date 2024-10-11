@@ -5,14 +5,14 @@ import Image from "next/image";
 import { format } from "date-fns";
 import { AiOutlineLike, AiOutlineDislike, AiOutlineComment } from "react-icons/ai";
 import { LuArrowDownFromLine, LuArrowUpFromLine, LuBellOff } from "react-icons/lu";
-import { FaRegBell, FaRegStar } from "react-icons/fa";
+import { FaRegBell, FaRegStar, FaTelegramPlane } from "react-icons/fa";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 
 import { useFollow, useVote } from "@/src/hooks/post.hook";
 import { checkFollow, getUser } from "@/src/services/AuthService";
 import { UserContext } from "@/src/context/user.provider";
-import { useFollowUser, useUnFollowUser } from "@/src/hooks/auth.hooks";
+import { useComment, useFollowUser, useUnFollowUser } from "@/src/hooks/auth.hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Button } from "@nextui-org/button";
@@ -24,6 +24,11 @@ const Post = ({ post,refetch}:{post:any,refetch:any}) => {
   const context = useContext(UserContext);
   const [followData,setfollowData]=useState(false)
   const [followUnfollow,setFollowUnfollow]=useState(true)
+  const [showCommentSection, setShowCommentSection] = useState(false);
+  // const [comments, setComments] = useState(""); // State for comments
+  const [newComment, setNewComment] = useState("");
+
+  const {mutate:handleRecipeComment}=useComment()
 
   if (!context) {
       throw new Error("MyComponent must be used within a UserProvider");
@@ -156,6 +161,36 @@ const Post = ({ post,refetch}:{post:any,refetch:any}) => {
     handleRecipeVote(voteInfo)
   }
   }
+
+
+  const handleCommentToggle = () => {
+    setShowCommentSection((prev) => !prev); 
+    
+  };
+
+
+  const handleCommentSubmit = (e) => {
+
+    if(!user){
+      toast.warning("You have to login first to comment")
+      return
+    }
+    e.preventDefault();
+    // setComments(newComment)
+    console.log(newComment)
+    const commentData={
+      recipe:post?._id,
+      user:user?._id,
+      comment:newComment
+    }
+    handleRecipeComment(commentData)
+
+    setNewComment('')
+    // if (newComment.trim()) {
+    //   setComments((prev) => [...prev, newComment]); // Add new comment to state
+    //   setNewComment(""); // Clear input
+    // }
+  };
   
 
  
@@ -248,7 +283,7 @@ const Post = ({ post,refetch}:{post:any,refetch:any}) => {
             <LuArrowDownFromLine size={24}/>
           </button>
           {/* Comment Icon */}
-          <button className="text-gray-500 hover:text-green-500">
+          <button className="text-gray-500 hover:text-green-500"  onClick={handleCommentToggle}>
             <AiOutlineComment size={24} />
           </button>
         </div>
@@ -260,6 +295,27 @@ const Post = ({ post,refetch}:{post:any,refetch:any}) => {
           <span className="ml-1">5.0</span>
         </div>
       </div>
+
+
+      {showCommentSection && (
+       <div className="mt-4">
+       <form onSubmit={handleCommentSubmit} className="flex bg-white p-4 rounded shadow-md">
+         <textarea
+           value={newComment}
+           onChange={(e) => setNewComment(e.target.value)}
+           placeholder="Add a comment..."
+           className="border p-2 rounded flex-grow text-gray-600 bg-slate-50 font-Peyda"
+           rows={2}
+         />
+         <Button 
+           type="submit" 
+           className="ml-2 flex items-center justify-center bg-white text-black text-2xl rounded p-2"
+         >
+           <FaTelegramPlane />
+         </Button>
+       </form>
+     </div>
+     )}
     </div>
   );
 };
