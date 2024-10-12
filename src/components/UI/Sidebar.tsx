@@ -7,7 +7,7 @@ import { ImSpoonKnife } from "react-icons/im";
 import { AiOutlineHome, AiOutlineFileAdd, AiOutlineInfoCircle, AiOutlineContacts, AiOutlineUnorderedList } from "react-icons/ai";
 import { Divider } from "@nextui-org/divider";
 import { GiChefToque, GiNoodles } from "react-icons/gi";
-import { MdCardMembership } from "react-icons/md";
+import { MdCardMembership, MdOutlineDashboardCustomize } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { useContext } from "react";
 import { UserContext } from "@/src/context/user.provider";
@@ -65,6 +65,15 @@ const Sidebar=()=> {
         <CgProfile size={24}/>
           {/* <span className="invisible lg:visible  lg:inline">My Recipe</span> */}
           <span className="hidden   lg:inline">My Profile</span>
+        </Link>
+  )
+      }
+      {
+        user && (      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/mydashboard') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/mydashboard">
+      
+      <MdOutlineDashboardCustomize size={24} />
+          {/* <span className="invisible lg:visible  lg:inline">My Recipe</span> */}
+          <span className="hidden   lg:inline">Dashboard</span>
         </Link>
   )
       }

@@ -12,7 +12,7 @@ import { MdLocationPin } from 'react-icons/md';
 const ContactUs = () => {
     return (
         <div className="relative min-h-screen bg-gray-100 flex justify-center items-center overflow-hidden font-Peyda">
-            {/* Background Image */}
+       
             <div className="absolute inset-0 z-0">
                 <Image
                     src={contactBg}
@@ -23,7 +23,6 @@ const ContactUs = () => {
                 />
             </div>
 
-            {/* Contact Form Container */}
             <div className="relative z-10 p-6 max-w-lg w-full bg-transparent flex flex-col justify-center h-full">
                 <h1 className="text-3xl font-bold text-center mb-4 text-gray-800">Contact Us</h1>
                 <p className="text-gray-600 text-center mb-4">
@@ -31,7 +30,7 @@ const ContactUs = () => {
                 </p>
 
                 <form className="space-y-5 flex-grow">
-                    {/* Name Field */}
+                  
                     <div>
                         <label htmlFor="name" className="block text-gray-700 text-sm font-semibold mb-1">
                             Your Name
@@ -39,7 +38,7 @@ const ContactUs = () => {
                         <Input variant='underlined' size='sm'  />
                     </div>
 
-                    {/* Email Field */}
+                   
                     <div>
                         <label htmlFor="email" className="block text-gray-700 text-sm font-semibold mb-1">
                             Your Email
@@ -47,7 +46,6 @@ const ContactUs = () => {
                         <Input variant='underlined' size='sm'  />
                     </div>
 
-                    {/* Message Field */}
                     <div>
                         <label htmlFor="message" className="block text-gray-700 text-sm font-semibold mb-1">
                             Your Message
@@ -60,10 +58,10 @@ const ContactUs = () => {
                        />
                     </div>
 
-                    {/* Submit Button */}
+                    
                     <div className="text-center">
                         <button
-                            type="submit"
+                           
                             className="bg-[#8B4513] text-white py-2 px-6 rounded-lg shadow-lg hover:bg-[#A0522D] focus:outline-none transition-transform transform hover:scale-105"
                         >
                             Send Message
