@@ -71,7 +71,7 @@ const Sidebar=()=> {
 
 
 
-      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/about-us') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/about-us">
+      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/aboutus') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/aboutus">
         <AiOutlineInfoCircle size={24} />
         {/* <span className="invisible lg:visible  lg:inline">About Us</span> */}
         <span className="hidden   lg:inline">About Us</span>
