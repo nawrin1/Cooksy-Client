@@ -8,6 +8,9 @@ import { AiOutlineHome, AiOutlineFileAdd, AiOutlineInfoCircle, AiOutlineContacts
 import { Divider } from "@nextui-org/divider";
 import { GiChefToque, GiNoodles } from "react-icons/gi";
 import { MdCardMembership } from "react-icons/md";
+import { CgProfile } from "react-icons/cg";
+import { useContext } from "react";
+import { UserContext } from "@/src/context/user.provider";
 
 const Sidebar=()=> {
   const router = useRouter();
@@ -15,6 +18,14 @@ const Sidebar=()=> {
   // console.log(pathname,"pathname")
 
   const isActive = (path: string) => pathname === path;
+  
+  const context = useContext(UserContext);
+
+  if (!context) {
+      throw new Error("MyComponent must be used within a UserProvider");
+    }
+  
+    const { user, isLoading, setIsLoading } = context;
 
   // console.log(isActive,"in sidebar")
 
@@ -33,16 +44,12 @@ const Sidebar=()=> {
       </Link>
       
 
-      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/my-recipe') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/my-recipe">
-      {/* <AiOutlineUnorderedList size={24} /> */}
-      <ImSpoonKnife size={24}/>
-        {/* <span className="invisible lg:visible  lg:inline">My Recipe</span> */}
-        <span className="hidden   lg:inline">My Recipe</span>
-      </Link>
 
       <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard">
        
-        <AiOutlineHome size={24} />
+        {/* <AiOutlineHome size={24} /> */}
+
+        <ImSpoonKnife size={24}/>
         {/* <span className="invisible lg:visible  lg:inline">All Recipes</span> */}
         <span className="hidden   lg:inline">All Recipe</span>
       </Link>
@@ -52,6 +59,17 @@ const Sidebar=()=> {
         {/* <span className="invisible lg:visible  lg:inline">All Recipes</span> */}
         <span className="hidden   lg:inline">Membership</span>
       </Link>
+      {
+        user && (      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/my-profile') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/my-profile">
+      
+        <CgProfile size={24}/>
+          {/* <span className="invisible lg:visible  lg:inline">My Recipe</span> */}
+          <span className="hidden   lg:inline">My Profile</span>
+        </Link>
+  )
+      }
+
+
 
       <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/about-us') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/about-us">
         <AiOutlineInfoCircle size={24} />

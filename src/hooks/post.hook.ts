@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { FieldValues } from "react-hook-form";
 
-import { createPost, getAllRecipes, getSingleRecipe } from "../services/Post";
+import { createPost, getAllRecipes, getMyRecipes, getSingleRecipe } from "../services/Post";
 import { recipeVote } from "../services/AuthService";
 
 
@@ -36,6 +36,14 @@ export const useFetchPost = () => {
   return useQuery({
     queryKey: ["POSTS"],
     queryFn: async () => await getAllRecipes(),
+    refetchInterval: 10,
+  });
+};
+
+export const useMyRecipe = () => {
+  return useQuery({
+    queryKey: ["MY_POSTS"],
+    queryFn: async () => await getMyRecipes(),
     refetchInterval: 10,
   });
 };
