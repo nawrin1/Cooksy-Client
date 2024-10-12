@@ -77,7 +77,7 @@ const Sidebar=()=> {
         <span className="hidden   lg:inline">About Us</span>
       </Link>
 
-      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/contact-us') ? 'text-orange-700 font-bold' : ''}`} href="/dashboard/contact-us">
+      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/contactus') ? 'text-orange-700 font-bold' : ''}`} href="/dashboard/contactus">
         <AiOutlineContacts size={24} />
         {/* <span className="invisible lg:visible  lg:inline">Contact Us</span> */}
         <span className="hidden   lg:inline">Contact Us</span>
