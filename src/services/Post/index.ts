@@ -31,7 +31,7 @@ export const getAllRecipes = async (): Promise<any> => {
       revalidateTag("POSTS"); 
   
       const data=await res.json();
-      console.log(data)
+      // console.log(data)
       return data
     } catch (error) {
       console.log(error);
@@ -43,6 +43,7 @@ export const getAllRecipes = async (): Promise<any> => {
 
 
   export const getSingleRecipe = async (recipeId: string) => {
+    console.log(recipeId,"in post index.ts")
     let fetchOptions = {};
   
     fetchOptions = {

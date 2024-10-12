@@ -147,6 +147,25 @@ export const getUser = async () => {
 
   return decodedToken;
 };
+export const getUserFromDB = async (userId:string) => {
+
+  try {
+  
+    const { data } = await axiosInstance.get(`/user/getMe/${userId}` );
+   
+  
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+  
+
+ 
+};
 
 
 
@@ -233,6 +252,23 @@ export const rateRecipe = async (rateInfo: FieldValues) => {
  
    
     const { data } = await axiosInstance.put("/recipes/rate", rateInfo);
+   
+  
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const createPayment = async (price: FieldValues) => {
+  try {
+ 
+   
+    const { data } = await axiosInstance.post("/create-payment-intent", price);
    
   
 

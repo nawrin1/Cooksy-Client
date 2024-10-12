@@ -109,17 +109,20 @@ import { Avatar } from "@nextui-org/avatar";
 import parse from "html-react-parser";
 import { RxLapTimer } from "react-icons/rx";
 import { AiFillStar } from "react-icons/ai";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { RiChatDeleteLine } from "react-icons/ri";
-import ImageGallery from "@/src/components/UI/ImageGallery";
-import { UserContext } from "@/src/context/user.provider";
 import { format } from "date-fns";
 import { FiMoreHorizontal } from "react-icons/fi"; // For the three dots
 import { CiEdit } from "react-icons/ci";
-import { useDeleteComment, useEditComment } from "@/src/hooks/auth.hooks";
-import { getSingleRecipe } from "@/src/services/Post";
 import { Button } from "@nextui-org/button";
 import { FaTelegramPlane } from "react-icons/fa";
+
+import { useDeleteComment, useEditComment } from "@/src/hooks/auth.hooks";
+import { getSingleRecipe } from "@/src/services/Post";
+import { UserContext } from "@/src/context/user.provider";
+import ImageGallery from "@/src/components/UI/ImageGallery";
+import { getUserFromDB } from "@/src/services/AuthService";
+import Link from "next/link";
 
 
 const RecipeCard = ({ post, recipeId }:{post:any,recipeId:string}) => {
@@ -132,6 +135,7 @@ const RecipeCard = ({ post, recipeId }:{post:any,recipeId:string}) => {
   const [newComment,setNewComment]=useState('')
   const { mutate: handleDelete } = useDeleteComment();
   const {mutate:handleEdit}=useEditComment()
+  const [userPremium,setPremium]=useState<any>(null)
 
   const sum = post?.rating.reduce((acc:any, rate:any) => acc + rate, 0);  
   const average = post?.rating.length ? (sum / post.rating.length).toFixed(2) : 0;
@@ -141,6 +145,23 @@ const RecipeCard = ({ post, recipeId }:{post:any,recipeId:string}) => {
   }
 
   const { user, isLoading } = context;
+
+  useEffect(() => {
+    const fetchUserPremium = async () => {
+      if (user?._id) {
+        try {
+          const data = await getUserFromDB(user._id);
+
+          setPremium(data?.data?.isPremium);
+          console.log(data,"premium")
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+  
+    fetchUserPremium();
+  }, [user]);
 
   const handleEditComment = (index: any) => {
     // console.log("Edit comment with ID:", commentId);
@@ -180,10 +201,11 @@ const RecipeCard = ({ post, recipeId }:{post:any,recipeId:string}) => {
         commentId:id,
         newComment:newComment
     }
+
     handleEdit(commentInfo)
     setSelectedCommentId(null);
     setTimeout(async() => {
-        const { data } =  await getSingleRecipe(recipeId);
+        const { data } =   await getSingleRecipe(recipeId);
 
         console.log(data)
         setposts(data); 
@@ -191,17 +213,19 @@ const RecipeCard = ({ post, recipeId }:{post:any,recipeId:string}) => {
 
   }
 
+  console.log(userPremium,"prrrr")
+
   return (
     <div className="relative bg-white border shadow-md p-8">
       {/* Premium check */}
-      {!user?.isPremium && (
+      {!userPremium && (
         <div className="absolute font-Peyda inset-0 flex flex-col items-center pt-56 justify-start bg-white/50 backdrop-blur-lg z-10">
           <p className="text-center text-lg font-semibold text-gray-600">
             Become a Premium member to view the full recipe details!
           </p>
-          <button className="mt-4 px-4 py-2 bg-[#e3913f] text-white rounded-lg hover:bg-orange-600">
+          <Link href='/dashboard/membership'><button className="mt-4 px-4 py-2 bg-[#e3913f] text-white rounded-lg hover:bg-orange-600">
             Upgrade to Premium
-          </button>
+          </button></Link>
         </div>
       )}
 
@@ -281,16 +305,16 @@ const RecipeCard = ({ post, recipeId }:{post:any,recipeId:string}) => {
                 {edit == index && selectedCommentId === comment?._id ? (
                     <div className="flex ">
                     <textarea
+                    className="border p-2 rounded flex-grow text-gray-600 bg-slate-50 font-Peyda"
+                    placeholder="Add a comment..."
+                    rows={2}
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Add a comment..."
-                    className="border p-2 rounded flex-grow text-gray-600 bg-slate-50 font-Peyda"
-                    rows={2}
                   />
                   <Button 
-           type="submit" 
+           className="ml-2 flex items-center justify-center bg-white text-black text-2xl rounded p-2" 
+           type="submit"
            onClick={()=>handleSubmit(comment?._id)}
-           className="ml-2 flex items-center justify-center bg-white text-black text-2xl rounded p-2"
          >
            <FaTelegramPlane />
          </Button>
@@ -304,22 +328,22 @@ const RecipeCard = ({ post, recipeId }:{post:any,recipeId:string}) => {
               {user?._id === comment?.user?._id && (
                 <div className="relative ">
                   <button
-                    onClick={() => toggleCommentOptions(comment?._id)}
                     className="text-gray-600"
+                    onClick={() => toggleCommentOptions(comment?._id)}
                   >
                     <FiMoreHorizontal className="text-xl" />
                   </button>
                   {selectedCommentId === comment?._id && (
                     <div className="absolute right-8 bottom-5  w-32 bg-white shadow-lg rounded-md">
                       <button
-                        onClick={() => handleEditComment(index)}
                         className="block flex gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => handleEditComment(index)}
                       >
                         <CiEdit className="text-2xl pb-1 text-green-600" /> Edit
                       </button>
                       <button
-                        onClick={() => handleDeleteComment(comment?._id)}
                         className="block flex gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => handleDeleteComment(comment?._id)}
                       >
                         <RiChatDeleteLine className="text-xl text-red-500 " />
                         Delete

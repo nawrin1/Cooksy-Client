@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { createPost, getAllRecipes } from "../services/Post";
-import { checkFollow, recipeVote } from "../services/AuthService";
 import { FieldValues } from "react-hook-form";
+
+import { createPost, getAllRecipes, getSingleRecipe } from "../services/Post";
+import { recipeVote } from "../services/AuthService";
 
 
 
@@ -38,6 +39,15 @@ export const useFetchPost = () => {
     refetchInterval: 10,
   });
 };
+// export const useFetchSinglePost = (data:any) => {
+//   console.log(data,"data in post hook")
+
+//   return useQuery({
+//     queryKey: ["SINGLE_POSTS"],
+//     queryFn: async () => await getSingleRecipe(data),
+//     refetchInterval: 10,
+//   });
+// };
 // export const useFollow = (info:any) => {
 //   return useQuery({
 //     queryKey: ["FOLLOW_UPDATE"],

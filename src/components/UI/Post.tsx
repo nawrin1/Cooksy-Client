@@ -128,14 +128,14 @@ const Post = ({ post,refetch}:{post:any,refetch:any}) => {
     };
     
     if(value){
-      await handleFollowUser(followInfo);
+      handleFollowUser(followInfo);
       // queryClient.invalidateQueries({ queryKey: ['POSTS'] });
       // refetch(); 
 
     }
     else{
       console.log("in un")
-      await handleunFollowUser(followInfo)
+      handleunFollowUser(followInfo)
       // queryClient.invalidateQueries({ queryKey: ['POSTS'] });
       // refetch(); 
     }

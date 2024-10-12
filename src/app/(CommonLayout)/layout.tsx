@@ -2,6 +2,7 @@
 
 import Sidebar from "@/src/components/UI/Sidebar";
 import UserSidebar from "@/src/components/UI/UserSidebar";
+import UserProvider from "@/src/context/user.provider";
 import Link from "next/link";
 import { AiOutlineHome, AiOutlineFileAdd, AiOutlineInfoCircle, AiOutlineContacts, AiOutlineUnorderedList } from "react-icons/ai";
 
@@ -9,6 +10,7 @@ import { AiOutlineHome, AiOutlineFileAdd, AiOutlineInfoCircle, AiOutlineContacts
 export default function layout({ children }: { children: React.ReactNode }) {
   
   return (
+    <UserProvider>
     <div className="flex">
      
       {/* <div className="bg-red-300 border-2 gap-2 w-[25%] border-red-400 fixed h-screen flex flex-col">
@@ -46,6 +48,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
     <Sidebar />
 
       {/* Middle content */}
+
       <div className="lg:w-[55%] md:w-[65%] w-[90%] lg:ml-[20%] ml-[10%] h-screen overflow-y-auto scrollable-content bg-white">
         <main>{children}</main>
       </div>
@@ -55,5 +58,6 @@ export default function layout({ children }: { children: React.ReactNode }) {
         <UserSidebar />
       </div>
     </div>
+    </UserProvider>
   );
 }

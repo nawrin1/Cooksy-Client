@@ -15,7 +15,7 @@ const Dashboard = () => {
     const { register, handleSubmit, watch } = useForm();
    
     const { data, isPending, isSuccess,refetch } = useFetchPost();
-    const { user, isLoading, setIsLoading } = getUser();
+    const { user } =  getUser();
   
 
 
