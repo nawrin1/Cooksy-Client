@@ -88,19 +88,19 @@ const RegisterPage = () => {
             onSubmit={onSubmit}
           >
             <div className="">
-              <FXInput label="Name" name="name" type="text" />
+              <FXInput label="Name" name="name" type="text" required={true} />
             </div>
             <div className="">
-              <FXInput label="Bio" name="bio" type="text"  />
+              <FXInput label="Bio" name="bio" type="text"  required={true} />
             </div>
             <div className="">
-              <FXInput label="Email" name="email" type="email" />
+              <FXInput label="Email" name="email" type="email"  required={true}/>
             </div>
             <div className="">
-              <FXInput label="Password" name="password" type="password"  />
+              <FXInput label="Password" name="password" type="password" required={true}  />
             </div>
             <div className="">
-              <FXInput label="Image" name="image" type="text"  />
+              <FXInput label="Image" name="image" type="text"  required={true} />
             </div>
 
             <Button

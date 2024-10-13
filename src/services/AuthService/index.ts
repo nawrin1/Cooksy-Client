@@ -54,6 +54,36 @@ export const forgetPassword = async (userInfo: FieldValues) => {
     throw new Error(error.response.data.message);
   }
 };
+export const resetPassword = async (resetInfo: FieldValues) => {
+  try {
+    // console.log(userInfo,"from service")
+    const { data } = await axiosInstance.patch("/auth/reset-password", resetInfo);
+    
+   
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};
+export const editProfile = async (updateInfo: FieldValues) => {
+  try {
+    // console.log(userInfo,"from service")
+    const { data } = await axiosInstance.patch("/auth/edit-profile", updateInfo);
+    
+   
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};
 export const recipeVote = async (voteInfo: FieldValues) => {
   try {
     // console.log(userInfo,"from service")

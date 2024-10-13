@@ -21,13 +21,16 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   const router = useRouter();
 
   return (
+   
     <QueryClientProvider client={queryClient}>
-        <UserProvider>
+       <UserProvider>
+       
       <NextUIProvider navigate={router.push}>
         <Toaster />
         <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
       </NextUIProvider>
-      </UserProvider>
-    </QueryClientProvider>
-  );
+     
+
+    </UserProvider>
+        </QueryClientProvider>)
 }

@@ -49,7 +49,7 @@ export const getAllRecipes = async (): Promise<any> => {
 
   if (accessToken) {
     decodedToken = await jwtDecode(accessToken);
-    console.log(decodedToken,"dedoded from get my")
+    // console.log(decodedToken,"dedoded from get my")
     
     try {
       const res = await fetch(`http://localhost:4000/recipes/getMyRecipe/${decodedToken?._id}`,{

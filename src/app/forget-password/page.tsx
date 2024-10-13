@@ -56,7 +56,7 @@ const ForgetPassword = () => {
     
     <FXForm onSubmit={onSubmit}>
       <div className="py-3">
-        <FXInput label="New Password" name="password" type="password" />
+        <FXInput label="New Password" name="password" type="password" required={true} />
       </div>
       
      

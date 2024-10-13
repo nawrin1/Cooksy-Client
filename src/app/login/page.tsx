@@ -118,10 +118,10 @@ const LoginPage = () => {
             onSubmit={onSubmit}
           >
             <div className="lg:py-3 md:py-3">
-              <FXInput label="Email" name="email" type="email" />
+              <FXInput label="Email" name="email" type="email"  required={true}/>
             </div>
             <div className="lg:py-3 md:py-3">
-              <FXInput label="Password" name="password" type="password"  />
+              <FXInput label="Password" name="password" type="password" required={true}  />
             </div>
             <div className="lg:py-3 md:py-3 ">
              {/* <p className='text-[14px] ml-1 hover:text-[#e3913f]'>Forget Password</p> */}

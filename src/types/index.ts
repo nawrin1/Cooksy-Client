@@ -12,6 +12,7 @@ export interface IInput {
   label: string;
   name: string;
   disabled?: boolean;
+  defaultValue?:string;
   color?:
     | "default"
     | "primary"

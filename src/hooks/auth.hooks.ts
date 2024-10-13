@@ -3,7 +3,7 @@ import { FieldValues } from "react-hook-form";
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { deleteComment, editComment, followUser, forgetPassword, forgetPasswordNew, loginUser, rateRecipe, recipeComment, registerUser, unfollowUser } from "../services/AuthService";
+import { deleteComment, editComment, editProfile, followUser, forgetPassword, forgetPasswordNew, loginUser, rateRecipe, recipeComment, registerUser, resetPassword, unfollowUser } from "../services/AuthService";
 
 export const useUserRegistration = () => {
   return useMutation<any, Error, FieldValues>({
@@ -37,6 +37,32 @@ export const useForgetPassword = () => {
     mutationFn: async (userData) => await forgetPassword(userData),
     onSuccess: () => {
       toast.success("Reset Link Sent Successfully. Check Email");
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.message);
+    },
+  });
+};
+export const useEditProfile = () => {
+  return useMutation<any, Error, FieldValues>({
+    mutationKey: ["EDIT_PROFILE"],
+    mutationFn: async (userData) => await editProfile(userData),
+    onSuccess: () => {
+      toast.success("Profile Updated Successfully");
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.message);
+    },
+  });
+};
+export const useResetPassword = () => {
+  return useMutation<any, Error, FieldValues>({
+    mutationKey: ["RESET_PASSWORD"],
+    mutationFn: async (resetInfo) => await resetPassword(resetInfo),
+    onSuccess: () => {
+      toast.success("Reset password done Successfully.");
     },
     onError: (error) => {
       console.log(error)

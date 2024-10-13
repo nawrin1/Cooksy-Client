@@ -6,8 +6,7 @@ import { UserContext } from '@/src/context/user.provider';
 import { useMyRecipe } from '@/src/hooks/post.hook';
 import { getUserFromDB } from '@/src/services/AuthService';
 import { Avatar } from '@nextui-org/avatar';
-import { Button } from '@nextui-org/button';
-import { Modal, ModalBody, ModalContent, ModalFooter, useDisclosure } from '@nextui-org/modal';
+
 import Image from 'next/image';
 import React, { useContext, useEffect, useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
@@ -19,12 +18,10 @@ const Profile = () => {
     const [userData, setUser] = useState<any>(null);
     const [activeTab, setActiveTab] = useState("recipes");
     const [showOptions, setShowOptions] = useState(false);
-    const { isOpen: isResetOpen, onOpen: onResetOpen, onOpenChange: onResetOpenChange } = useDisclosure();
-    const { isOpen: isEditOpen, onOpen: onEditOpen, onOpenChange: onEditOpenChange } = useDisclosure();
-
     const toggleOptions = () => {
         setShowOptions((prev) => !prev);
     };
+  
 
     if (!context) {
         throw new Error("My Profile must be used within a UserProvider");
@@ -70,77 +67,10 @@ const Profile = () => {
                 </div>
             </div>
 
-            {/* Edit Profile and Reset Password Buttons */}
-            <div className='flex space-x-4 mb-6'>
-                <Button className='border-2 text-black py-2 px-4 bg-white rounded-sm hover:bg-slate-200' onPress={onEditOpen}>Edit Profile</Button>
-                <Button className='border-2 bg-white text-black py-2 px-4 rounded-sm hover:bg-slate-200' onPress={onResetOpen}>Reset Password</Button>
-                
-                {/* Edit Profile Modal */}
-                <Modal
-                    backdrop="opaque" 
-                    classNames={{
-                        backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
-                        
-                    }} 
-                    isOpen={isEditOpen}
-                    onOpenChange={onEditOpenChange}
-                >
-                    <ModalContent>
-                        {(onClose) => (
-                            <>
-                                <h2>Edit Profile</h2>
-                                <ModalBody >
-                                    {/* Your form for editing the profile goes here */}
-                                    <input type="text" placeholder="Update your name" className="w-full border rounded p-2" />
-                                    {/* Add more fields as needed */}
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button color="primary" onPress={onClose}>
-                                        Save Changes
-                                    </Button>
-                                    <Button color="danger" variant="light" onPress={onClose}>
-                                        Close
-                                    </Button>
-                                </ModalFooter>
-                            </>
-                        )}
-                    </ModalContent>
-                </Modal>
 
-                {/* Reset Password Modal */}
-                <Modal
-                    backdrop="opaque" 
-                    classNames={{
-                        backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20"
-                    }} 
-                    isOpen={isResetOpen}
-                    onOpenChange={onResetOpenChange}
-                >
-                    <ModalContent>
-                        {(onClose) => (
-                            <>
-                                <h2>Reset Password</h2>
-                                <ModalBody>
-                                    {/* Your form for resetting the password goes here */}
-                                    <input type="password" placeholder="New Password" className="w-full border rounded p-2" />
-                                    {/* Add more fields as needed */}
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button color="primary" onPress={onClose}>
-                                        Reset Password
-                                    </Button>
-                                    <Button color="danger" variant="light" onPress={onClose}>
-                                        Close
-                                    </Button>
-                                </ModalFooter>
-                            </>
-                        )}
-                    </ModalContent>
-                </Modal>
-            </div>
 
             {/* Recipes Section */}
-            <h2 className='text-xl font-semibold mb-4'>Your Recipes</h2>
+            <h2 className='text-xl font-semibold mb-4 text-[#964B00] pt-10'>Your Recipes</h2>
             <div className="recipe-cards">
                 {recipe && recipe?.data?.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -156,7 +86,7 @@ const Profile = () => {
                                 <h4 className="text-lg font-semibold mt-2">{item?.title}</h4>
                                 <p className="text-gray-600">{item?.time}</p>
                                 {/* Three-dot button */}
-                                <button className='absolute top-2 right-1 text-gray-600' onClick={toggleOptions}>
+                                <button className='absolute top-2 right-[2px] text-gray-600' onClick={toggleOptions}>
                                     <FaEllipsisV />
                                 </button>
                                 {showOptions && (

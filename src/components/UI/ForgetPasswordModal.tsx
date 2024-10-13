@@ -42,7 +42,7 @@ const ForgetPasswordModal = () => {
             onSubmit={onSubmit}
           >
             <div className="py-3">
-              <FXInput label="Email" name="email" type="email" />
+              <FXInput label="Email" name="email" type="email"  required={true}/>
             </div>
             
             

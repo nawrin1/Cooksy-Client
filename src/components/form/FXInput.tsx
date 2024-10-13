@@ -14,15 +14,18 @@ export default function FXInput({
   label,
   name,
   color="warning",
+  defaultValue="",
 }: IProps) {
   const {register,formState: { errors }, } = useFormContext();
 
   return (
     <Input
-      {...register(name)}
+      {...register(name,{required:true})}
+      
       errorMessage={errors[name] ? (errors[name].message as string) : ""}
       isInvalid={!!errors[name]} 
       label={label}
+      defaultValue={defaultValue} 
       color={color}
       required={required}
       size={size}

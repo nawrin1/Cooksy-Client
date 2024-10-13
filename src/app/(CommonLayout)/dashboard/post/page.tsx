@@ -86,10 +86,10 @@ const Post = () => {
 
                     <div className="flex flex-wrap gap-2 py-2 overflow-x-hidden ">
                     <div className="min-w-fit flex-1">
-                    <FXInput label="Title" name="title" variant="underlined" />
+                    <FXInput label="Title" name="title" variant="underlined"  required={true}/>
                     </div>
                     <div className="min-w-fit flex-1">
-                    <FXInput label="Cooking Time" name="time" variant="underlined" />
+                    <FXInput label="Cooking Time" name="time" variant="underlined" required={true} />
                     </div>
 
                     </div>
