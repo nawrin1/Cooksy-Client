@@ -84,6 +84,22 @@ export const editProfile = async (updateInfo: FieldValues) => {
     throw new Error(error.response.data.message);
   }
 };
+export const deleteRecipe = async (id: FieldValues) => {
+  console.log(id,"del recipe service")
+  try {
+
+    const { data } = await axiosInstance.patch("/recipes/delete-recipe", id);
+    
+   
+
+
+
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.message)
+    throw new Error(error.response.data.message);
+  }
+};
 export const recipeVote = async (voteInfo: FieldValues) => {
   try {
     // console.log(userInfo,"from service")

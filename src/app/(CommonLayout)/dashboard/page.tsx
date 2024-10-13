@@ -15,13 +15,13 @@ const Dashboard = () => {
     const { register, handleSubmit, watch } = useForm();
    
     const { data, isPending, isSuccess,refetch } = useFetchPost();
-    const { user } =  getUser();
+    // const { user } =  getUser();
   
 
 
-    console.log(user)
-    // console.log("hel")
-    console.log(data)
+    // console.log(user)
+    // // console.log("hel")
+    // console.log(data)
 
     
   const onSubmit: SubmitHandler<FieldValues> = (data) => {

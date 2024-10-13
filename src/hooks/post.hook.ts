@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { FieldValues } from "react-hook-form";
 
 import { createPost, getAllRecipes, getMyRecipes, getSingleRecipe } from "../services/Post";
-import { recipeVote } from "../services/AuthService";
+import { deleteRecipe, recipeVote } from "../services/AuthService";
 
 
 
@@ -32,6 +32,18 @@ export const useVote = () => {
     },
   });
 };
+export const useDeleteRecipe = () => {
+  return useMutation<any, Error,FieldValues>({
+    mutationKey: ["DELETE_RECIPE"],
+    mutationFn: async (id) => await deleteRecipe(id),
+    onSuccess: () => {
+      toast.success("Recipe deleted succesfully");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
 export const useFetchPost = () => {
   return useQuery({
     queryKey: ["POSTS"],
@@ -47,6 +59,7 @@ export const useMyRecipe = () => {
     refetchInterval: 10,
   });
 };
+
 // export const useFetchSinglePost = (data:any) => {
 //   console.log(data,"data in post hook")
 

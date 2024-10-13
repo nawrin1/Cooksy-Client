@@ -122,7 +122,7 @@ const Profile = () => {
       )}
 
       {/* Edit Profile and Reset Password Buttons */}
-      <div className='flex space-x-4 mb-6 relative lg:left-[15%] md:left-[21%] left-[29%] mt-6 font-Peyda'>
+      <div className='flex space-x-4 mb-6 relative lg:left-[16%] md:left-[21%] left-[29%] mt-6 font-Peyda'>
         <Button className='border-2 text-black py-2 px-4 bg-white rounded-sm hover:bg-slate-200' onPress={onEditOpen}>Edit Profile</Button>
         <Button className='border-2 bg-white text-black py-2 px-4 rounded-sm hover:bg-slate-200' onPress={onResetOpen}>Reset Password</Button>
         
