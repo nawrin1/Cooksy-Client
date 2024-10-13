@@ -205,6 +205,11 @@ const Post = ({ post,refetch}:{post:any,refetch:any}) => {
   };
 
   const handleRate=(id:string)=>{
+    if(!user){
+      toast.warning("You have to login first to rate")
+      return
+  
+    }
     const rateInfo={
       id:id,
       rate:Number(rating)

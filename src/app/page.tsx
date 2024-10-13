@@ -12,12 +12,12 @@ const Home = () => {
       setIsLoading(false);
     }, 2200);
 
-    return () => clearTimeout(timer); // Clean up the timeout on unmount
+    return () => clearTimeout(timer); 
   }, []);
 
   useEffect(() => {
     if (!isLoading) {
-      redirect('/login'); // Redirect when loading is complete
+      redirect('/dashboard'); 
     }
   }, [isLoading]);
 

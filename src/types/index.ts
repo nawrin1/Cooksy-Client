@@ -20,6 +20,7 @@ export interface IInput {
     | "success"
     | "warning"
     | "danger";
+    readonly?:boolean
 }
 
 export interface IUser {

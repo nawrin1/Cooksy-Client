@@ -138,7 +138,7 @@ export const forgetPasswordNew = async (userInfo: FieldValues) => {
 export const followUser = async (followData: FieldValues) => {
   try {
   
-   console.log(followData,"follow data")
+  //  console.log(followData,"follow data")
     const { data } = await axiosInstance.patch("/auth/follow", followData);
     
     // console.log(data)
@@ -190,6 +190,7 @@ export const getUser = async () => {
       isPremium: decodedToken.isPremium,
     };
   }
+  console.log(decodedToken,"decoded token from getUer")
 
   return decodedToken;
 };
@@ -325,4 +326,15 @@ export const createPayment = async (price: FieldValues) => {
     console.log(error.response.data.message)
     throw new Error(error.response.data.message);
   }
+};
+
+
+
+export const logout = () => {
+
+  console.log("loggged out")
+  cookies().delete("accessToken");
+  const token=cookies().get('accessToken')
+  console.log(token,"token")
+  
 };

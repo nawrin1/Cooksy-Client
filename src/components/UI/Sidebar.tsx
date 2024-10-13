@@ -11,6 +11,11 @@ import { MdCardMembership, MdOutlineDashboardCustomize } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { useContext } from "react";
 import { UserContext } from "@/src/context/user.provider";
+import { RiLogoutCircleLine } from "react-icons/ri";
+import { logout } from "@/src/services/AuthService";
+import { toast } from "sonner";
+import { FaBook, FaUserCircle } from "react-icons/fa";
+
 
 const Sidebar=()=> {
   const router = useRouter();
@@ -25,7 +30,25 @@ const Sidebar=()=> {
       throw new Error("MyComponent must be used within a UserProvider");
     }
   
-    const { user, isLoading, setIsLoading } = context;
+    const { user, isLoading, setIsLoading,setUser } = context;
+
+
+  
+    
+  
+    const handleLogout = () => {
+      console.log("inside logged out")
+      logout();
+      setUser(null)
+     
+      toast.success("Logged out successfully")
+      router.push('/dashboard')
+     
+    
+      }
+
+      console.log(user,"what")
+    
 
   // console.log(isActive,"in sidebar")
 
@@ -37,30 +60,66 @@ const Sidebar=()=> {
 <GiNoodles className="text-2xl mt-1"/> 
 </div>
 <div className="h-screen  flex flex-col place-content-around ">
-<Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/post') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/post">
+{
+    user?.role=="Admin" && (
+      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/manage') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/manage">
+        <FaUserCircle size={23} />
+        {/* <span className="invisible lg:visible  lg:inline">Post a Recipe</span> */}
+        <span className=" hidden lg:inline  ">Manage User</span>
+      </Link>
+    )
+  }
+{
+    user?.role=="Admin" && (
+      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/manage') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/manage">
+       <FaBook size={22} />
+        {/* <span className="invisible lg:visible  lg:inline">Post a Recipe</span> */}
+        <span className=" hidden lg:inline  ">Manage Recipe</span>
+      </Link>
+    )
+  }
+{
+    user?.role=="Admin" && (
+      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/manage') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/manage">
+        <AiOutlineFileAdd size={24} />
+        {/* <span className="invisible lg:visible  lg:inline">Post a Recipe</span> */}
+        <span className=" hidden lg:inline  ">Manage Account</span>
+      </Link>
+    )
+  }
+
+  {
+    user?.role=="User" && (
+      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/post') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/post">
         <AiOutlineFileAdd size={24} />
         {/* <span className="invisible lg:visible  lg:inline">Post a Recipe</span> */}
         <span className=" hidden lg:inline  ">Post a Recipe</span>
       </Link>
+    )
+  }
+
       
 
 
       <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard">
        
-        {/* <AiOutlineHome size={24} /> */}
-
+     
         <ImSpoonKnife size={24}/>
         {/* <span className="invisible lg:visible  lg:inline">All Recipes</span> */}
         <span className="hidden   lg:inline">All Recipe</span>
       </Link>
-      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/membership') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/membership">
+{
+  user?.role=="User" && (
+    <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/membership') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/membership">
        
-        <MdCardMembership size={24} />
-        {/* <span className="invisible lg:visible  lg:inline">All Recipes</span> */}
-        <span className="hidden   lg:inline">Membership</span>
-      </Link>
+    <MdCardMembership size={24} />
+    {/* <span className="invisible lg:visible  lg:inline">All Recipes</span> */}
+    <span className="hidden   lg:inline">Membership</span>
+  </Link>
+  )
+}
       {
-        user && (      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/my-profile') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/my-profile">
+        user?.role=="User" && (      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/my-profile') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/my-profile">
       
         <CgProfile size={24}/>
           {/* <span className="invisible lg:visible  lg:inline">My Recipe</span> */}
@@ -68,8 +127,10 @@ const Sidebar=()=> {
         </Link>
   )
       }
+
+
       {
-        user && (      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/mydashboard') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/mydashboard">
+        user?.role=="User" && (      <Link className={`flex items-center gap-2 hover:text-orange-700 ${isActive('/dashboard/mydashboard') ? 'text-[#964B00] font-bold' : ''}`} href="/dashboard/mydashboard">
       
       <MdOutlineDashboardCustomize size={24} />
           {/* <span className="invisible lg:visible  lg:inline">My Recipe</span> */}
@@ -77,6 +138,7 @@ const Sidebar=()=> {
         </Link>
   )
       }
+     
 
 
 
@@ -91,6 +153,27 @@ const Sidebar=()=> {
         {/* <span className="invisible lg:visible  lg:inline">Contact Us</span> */}
         <span className="hidden   lg:inline">Contact Us</span>
       </Link>
+
+      {
+        user ? (      
+      
+    <button className="flex gap-2  hover:text-orange-700" onClick={() => handleLogout()}>
+        <RiLogoutCircleLine size={24} />
+          {/* <span className="invisible lg:visible  lg:inline">My Recipe</span> */}
+          <span className="hidden   lg:inline">Logout</span>
+    </button>
+      
+        ):
+        (      
+      
+          <Link className={`flex items-center gap-2 hover:text-orange-700 `} href="/login">
+        <RiLogoutCircleLine size={24} />
+          {/* <span className="invisible lg:visible  lg:inline">My Recipe</span> */}
+          <span className="hidden   lg:inline">Login</span>
+    </Link>
+      
+        )
+      }
 </div>
     </div>
   );

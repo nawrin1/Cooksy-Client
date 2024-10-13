@@ -145,7 +145,7 @@ const Profile = () => {
         <FXInput label=" Name" name="name" type="text"  required={true} defaultValue={userData?.name}/>
       </div>
       <div className="py-3">
-        <FXInput label=" Email" name="email" type="text"  required={true} defaultValue={userData?.email}/>
+        <FXInput label=" Email" name="email" type="text"  required={true} defaultValue={userData?.email} readonly={true}/>
       </div>
       <div className="py-3">
         <FXInput label=" Password" name="password" type="text" required={true} defaultValue={userData?.password} />
